@@ -179,5 +179,7 @@ export class SdesInfrastructureStack extends cdk.Stack {
     const ec2SecurityGroup = createEc2SecurityGroup(this, vpc, namingPrefix);
     const ec2IAMRole = createEc2IAMRole(this, namingPrefix);
     const ec2Instance = createEc2Instance(this, vpc, ec2KeyPair, ec2SecurityGroup, ec2IAMRole, namingPrefix);
+
+    dbInstance.connections.allowFrom(ec2Instance, ec2.Port.tcp(dbPort));
   }
 }
