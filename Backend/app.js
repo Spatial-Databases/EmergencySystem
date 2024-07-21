@@ -1,7 +1,10 @@
-var http = require('http');
+var express = require('express');
+var app = express();
 
-console.log("App Started!")
-http.createServer(function (req, res) {
-  res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.end('Hello World!');
-}).listen(8080);
+app.get('/', function (req, res) {
+   res.send('Hello World');
+})
+
+var server = app.listen(5000, function () {
+   console.log("Express App running at http://127.0.0.1:5000/");
+})
