@@ -1,5 +1,5 @@
 {
-  "name": "locations",
+  "name": "EmergencySystem",
   "version": "1.0.0",
   "description": "description not available",
   "main": "dist/index.js",
@@ -19,6 +19,7 @@
     "@types/node": "^20.14.11",
     "@typescript-eslint/eslint-plugin": "^7.16.1",
     "@typescript-eslint/parser": "^7.16.1",
+    "dotenv": "^16.4.5",
     "eslint": "^8.57.0",
     "ts-node": "^10.9.2",
     "tsc-watch": "^6.2.0",
