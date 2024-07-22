@@ -987,6 +987,18 @@ TEST-results.xml
 package-lock.json
 .eslintcache
 *v8.log
-/lib/
 
 # End of https://www.toptal.com/developers/gitignore/api/vs,node,dotenv,intellij,intellij+all,visualstudio,visualstudiocode,terraform
+
+
+# start of aws cdk
+*.js
+!jest.config.js
+*.d.ts
+node_modules
+!SDESInfrastructure/bin/
+
+# CDK asset staging directory
+.cdk.staging
+cdk.out
+# end of aws cdk
