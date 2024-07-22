@@ -28,8 +28,8 @@ const createOIDCProvider = (scope: Construct, account: string, githubOrganizatio
         statements: [
           new iam.PolicyStatement({
             effect: iam.Effect.ALLOW,
-            actions: ['sts.AssumeRole'],
-            resources: [`arn:aws:iam::${account}:role:cdk-/*`],
+            actions: ['sts:AssumeRole'],
+            resources: [`arn:aws:iam::${account}:role/cdk-*`],
           }),
           new iam.PolicyStatement({
             effect: iam.Effect.ALLOW,
