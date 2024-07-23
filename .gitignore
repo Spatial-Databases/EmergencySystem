@@ -992,7 +992,6 @@ package-lock.json
 
 
 # start of aws cdk
-*.js
 !jest.config.js
 *.d.ts
 node_modules
