@@ -30,6 +30,8 @@ jobs:
                 aws-region: ${{ secrets.AWS_REGION }}
 
             - name: Setup secrets
+              env: 
+                GH_TOKEN: ${{ secrets.RUNNER_TOKEN }}
               run: |
                 DB_USERNAME=$(aws secretsmanager get-secret-value --secret-id sd-emergency-system-db-instance-credentials --query 'SecretString' --output text | jq .username)
                 DB_PASSWORD=$(aws secretsmanager get-secret-value --secret-id sd-emergency-system-db-instance-credentials --query 'SecretString' --output text | jq .password)
