@@ -8,8 +8,6 @@ CREATE TABLE public.emergency_center_log (
 );
 
 
-SELECT * FROM public.find_closest_emergency_center_and_log(ST_SetSRID(ST_MakePoint(28.0476, -26.2041), 4326));
-
 
 CREATE OR REPLACE FUNCTION public.find_closest_emergency_center_and_log(user_point GEOMETRY)
 RETURNS TABLE (emergency_center_id INTEGER, distance DOUBLE PRECISION, municipality_name TEXT) AS
@@ -60,7 +58,6 @@ BEGIN
 END;
 $$
 LANGUAGE plpgsql;
-
 
 
 
