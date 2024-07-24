@@ -86,7 +86,7 @@ router.get("/findmunicipality", async (req, res) => {
     }
 
     const spatial_response = await client.query(
-      "SELECT public.find_municipality_name(ST_SetSRID(ST_MakePoint($1, $2), 3246));",
+      "SELECT public.find_municipality_name(ST_SetSRID(ST_MakePoint($1, $2), 4326));",
       [longitude, latitude]
     );
   //   if (spatial_response[0] == null) {
