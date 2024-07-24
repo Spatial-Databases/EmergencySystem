@@ -1,0 +1,49 @@
+name: Deploy API to EC2
+
+on: 
+  push:
+    branches:
+      - main
+
+            
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  deploy-backend:
+    runs-on: ubuntu-latest
+
+    steps: 
+      - name: Checkout code
+        uses: actions/checkout@v4
+          
+      - name: Assume the deploy pipeline user role
+        uses: aws-actions/configure-aws-credentials@v4.0.1
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          aws-region: ${{ secrets.AWS_REGION }}
+  
+      - name: Get IP Address
+        run: |
+          EC2_IP=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=sd-emergency-system-ec2-instance" --query "Reservations[*].Instances[*].PublicDnsName" --output text --region ${{ secrets.AWS_SECRET_REGION }})
+          gh secret set EC2_IP < $EC2_IP
+  
+      - name: Fetch private key and add it to known hosts
+        run: |
+          mkdir -p ~/.ssh
+          aws ssm get-parameter --name "/ec2/keypair/sd-emergency-system-ec2-key-pair" --with-decryption --query "Parameter.Value" --region ${{ secrets.AWS_SECRET_REGION }} --output text > ~/.ssh/sd-emergency-system-ec2-key-pair.pem
+          chmod 600 ~/.ssh/sd-emergency-system-ec2-key-pair.pem
+          ssh-keyscan ${{ secrets.EC2_IP }} >> ~/.ssh/known_hosts
+  
+      - name: Upload to EC2
+        run: |
+          ssh -i ~/.ssh/sd-emergency-system-ec2-key-pair.pem ec2-user@${{ secrets.EC2_IP }} "pm2 stop index && \
+          rm -rf /home/ec2-user/backend/*"
+          tar -czf api_archive.tar.gz src/ package.json
+          scp -i ~/.ssh/sd-emergency-system-ec2-key-pair.pem api_archive.tar.gz ec2-user@${{ secrets.EC2_IP }}:/home/ec2-user/backend/
+          ssh -i ~/.ssh/sd-emergency-system-ec2-key-pair.pem ec2-user@${{ secrets.EC2_IP }} "tar -xzvf /home/ec2-user/backend/api_archive.tar.gz -C /home/ec2-user/backend && \
+          cd backend && \
+          npm install && \
+          rm /home/ec2-user/backend/api_archive.tar.gz && \
+          pm2 start src/index.js"
