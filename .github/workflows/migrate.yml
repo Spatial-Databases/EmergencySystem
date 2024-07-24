@@ -48,5 +48,5 @@ jobs:
             - name: Setup Flyway & Migrate to AWS
               run: wget -qO- https://download.red-gate.com/maven/release/com/redgate/flyway/flyway-commandline/10.11.0/flyway-commandline-10.11.0-linux-x64.tar.gz | tar -xvz && sudo ln -s `pwd`/flyway-10.11.0/flyway /usr/local/bin
             - run: flyway -user=${{ secrets.DB_USERNAME }} -password=${{ secrets.DB_PASSWORD }} -url="jdbc:postgresql://${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }}" -locations=filesystem:$(pwd)/database info
-            - run: flyway -user=${{ secrets.DB_USERNAME }} -password=${{ secrets.DB_PASSWORD }} -url="jdbc:postgresql://${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }}" -locations=filesystem:$(pwd)/database migrate
+            - run: flyway -user=${{ secrets.DB_USERNAME }} -password=${{ secrets.DB_PASSWORD }} -url="jdbc:postgresql://${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }}" -locations=filesystem:$(pwd)/database -baselineOnMigrate="true" migrate
               
