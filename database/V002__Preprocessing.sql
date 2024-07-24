@@ -7,7 +7,7 @@ SELECT
     adm3_en AS municipalities,
     adm1_en AS province,
     adm0_en AS country,
-    geom
+    the_geom AS geom
 FROM public.zaf_admbnda_adm3_sadb_ocha_20201109
 WHERE 
     adm1_en = 'Gauteng';
