@@ -992,7 +992,6 @@ package-lock.json
 
 
 # start of aws cdk
-*.js
 !jest.config.js
 *.d.ts
 node_modules
@@ -1002,3 +1001,6 @@ node_modules
 .cdk.staging
 cdk.out
 # end of aws cdk
+
+# JS
+*.js
