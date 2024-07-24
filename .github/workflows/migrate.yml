@@ -1,0 +1,50 @@
+name: Flyway Migration
+
+on:
+    push:
+        branches:
+            - main
+        paths: 
+            - '.github/workflows/migrate.yml'
+            - 'database/migrations/*'
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+    Migrate:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Setup jq
+              run: sudo apt install jq
+
+            - name: Assume the deploy pipeline user role
+              uses: aws-actions/configure-aws-credentials@v4.0.1
+              with:
+                role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+                aws-region: ${{ secrets.AWS_REGION }}
+
+            - name: Setup secrets
+              run: |
+                DB_USERNAME=$(aws secretsmanager get-secret-value --secret-id sd-emergency-system-db-instance-credentials --query 'SecretString' --output text | jq .username)
+                DB_PASSWORD=$(aws secretsmanager get-secret-value --secret-id sd-emergency-system-db-instance-credentials --query 'SecretString' --output text | jq .password)
+                DB_HOST=$(aws secretsmanager get-secret-value --secret-id sd-emergency-system-db-instance-credentials --query 'SecretString' --output text | jq .host)
+                DB_PORT=$(aws secretsmanager get-secret-value --secret-id sd-emergency-system-db-instance-credentials --query 'SecretString' --output text | jq .port)
+                DB_NAME=$(aws secretsmanager get-secret-value --secret-id sd-emergency-system-db-instance-credentials --query 'SecretString' --output text | jq .databaseName)
+
+                gh secret set DB_USERNAME < $DB_USERNAME
+                gh secret set DB_PASSWORD < $DB_PASSWORD
+                gh secret set DB_HOST < $DB_HOST
+                gh secret set DB_PORT < $DB_PORT
+                gh secret set DB_NAME < $DB_NAME
+
+            - name: Setup Flyway & Migrate to AWS
+              run: wget -qO- https://download.red-gate.com/maven/release/com/redgate/flyway/flyway-commandline/10.11.0/flyway-commandline-10.11.0-linux-x64.tar.gz | tar -xvz && sudo ln -s `pwd`/flyway-10.11.0/flyway /usr/local/bin
+            - run: flyway -user=${{ secrets.DB_USERNAME }} -password=${{ secrets.DB_PASSWORD }} -url="jdbc:postgresql://${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }}" -locations=filesystem:$(pwd)/database info
+            - run: flyway -user=${{ secrets.DB_USERNAME }} -password=${{ secrets.DB_PASSWORD }} -url="jdbc:postgresql://${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }}" -locations=filesystem:$(pwd)/database migrate
+              
