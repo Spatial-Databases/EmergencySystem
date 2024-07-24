@@ -1,5 +1,3 @@
-CREATE EXTENSION postgis;
-
 -- Create the new table with the schema and data filtered by adm1_en = 'Gauteng'
 CREATE TABLE public.zaf_admbnda_adm3_sadb_ocha_20201109_gauteng AS
 SELECT

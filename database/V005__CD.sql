@@ -21,9 +21,6 @@ $$
 LANGUAGE plpgsql;
 
 
-DROP FUNCTION IF EXISTS public.find_closest_emergency_center(GEOMETRY);
-
-
 SELECT * FROM public.find_closest_emergency_center(ST_SetSRID(ST_MakePoint(28.0476, -26.2041), 4326));
 
 
