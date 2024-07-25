@@ -102,7 +102,7 @@ router.get("/findmunicipality", async (req, res) => {
 });
 
   router.get('/emergencycenters', async (req, res) => {
-    let { lat, lon } = req.query;
+    let { lon, lat } = req.query;
     console.log(`${lon} ${lat}`);
     const parsedLat = parseFloat(lat);
     const parsedLon = parseFloat(lon);
@@ -112,7 +112,7 @@ router.get("/findmunicipality", async (req, res) => {
     try {
       console.log('HERE');
       const queryThis = `SELECT * FROM public.find_closest_emergency_center(ST_SetSRID(ST_MakePoint($1, $2), 4326));`
-      const result = await client.query(queryThis, [lat, lon]
+      const result = await client.query(queryThis, [lon, lat]
       );
       console.log(result)
       res.json(result.rows);
