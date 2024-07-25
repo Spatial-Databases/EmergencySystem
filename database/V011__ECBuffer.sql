@@ -15,4 +15,3 @@ $$ LANGUAGE plpgsql;
 
 SELECT * From get_emergency_centers_in_buffer(-25.98323,27.72067, 1000)
 
--25.98323,27.72067
