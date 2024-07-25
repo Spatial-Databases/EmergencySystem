@@ -18,7 +18,7 @@ client = new Client({
   user: process.env.USER,
   password: process.env.PASSWORD,
   host: process.env.ENDPOINT,
-  port: process.env.PORT,
+  port: process.env.DB_PORT,
   database: process.env.DATABASE,
   ssl: {
     rejectUnauthorized: false
