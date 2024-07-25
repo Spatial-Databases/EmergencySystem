@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const client = require("../config/db");
+const auth = require("../AuthMiddleware")
 
 // Gets ALL the info on ALL shelters in the db (table zaf_admbnda_adm3_sadb_ocha_20201109_gauteng)
 router.get("/getAllSheltersInfo", async (req, res) => {
@@ -155,7 +156,7 @@ router.get("/findmunicipality", async (req, res) => {
     }
   });
   
-  router.get("/strikezone", async (req, res) => {
+  router.get("/admin/strikezone", auth, async (req, res) => {
     try {
       const { longitude, latitude, distance } = req.query;
       const lonLatRegex = /^-?\d+(\.\d+)?$/;
@@ -196,7 +197,7 @@ router.get("/findmunicipality", async (req, res) => {
     }
   });
 
-  router.get("/reversestrikezone", async (req, res) => {
+  router.get("/admin/reversestrikezone", auth, async (req, res) => {
     try {
       const { longitude, latitude, distance } = req.query;
       const lonLatRegex = /^-?\d+(\.\d+)?$/;
@@ -233,7 +234,7 @@ router.get("/findmunicipality", async (req, res) => {
     }
   });
 
-  router.get("/createemergencylog", async (req, res) => {
+  router.get("/admin/createemergencylog", auth, async (req, res) => {
     try {
       const { longitude, latitude } = req.query;
       const lonLatRegex = /^-?\d+(\.\d+)?$/;
