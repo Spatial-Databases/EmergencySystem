@@ -34,7 +34,7 @@ jobs:
       - name: Fetch private key and add it to known hosts
         run: |
           mkdir -p ~/.ssh
-          aws ssm get-parameter --name "/ec2/keypair/sd-emergency-system-ec2-key-pair" --with-decryption --query "Parameter.Value" --region ${{ secrets.AWS_SECRET_REGION }} --output text > ~/.ssh/sd-emergency-system-ec2-key-pair.pem
+          aws ssm get-parameter --name "/ec2/keypair/sd-emergency-system-ec2-key-pair" --with-decryption --query "Parameter.Value" --region ${{ secrets.AWS_REGION }} --output text > ~/.ssh/sd-emergency-system-ec2-key-pair.pem
           chmod 600 ~/.ssh/sd-emergency-system-ec2-key-pair.pem
           ssh-keyscan ${{ secrets.EC2_IP }} >> ~/.ssh/known_hosts
   
