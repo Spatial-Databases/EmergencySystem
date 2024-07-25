@@ -1,5 +1,5 @@
 -- update emergency centers within the buffer zone
-CREATE OR REPLACE FUNCTION update_emergency_centers_in_buffer(lat DOUBLE PRECISION, lon DOUBLE PRECISION, radius DOUBLE PRECISION)
+CREATE OR REPLACE FUNCTION update_emergency_centers_in_buffer(lon DOUBLE PRECISION, lat DOUBLE PRECISION, radius DOUBLE PRECISION)
 RETURNS VOID AS $$
 DECLARE
     buffer_zone GEOMETRY;
@@ -17,7 +17,7 @@ $$ LANGUAGE plpgsql;
 SELECT insert_strike_zone(-26.2041, 28.0473, 1000);
 
 
-SELECT update_emergency_centers_in_buffer(-26.2041, 28.0473, 8000); 
+SELECT * from update_emergency_centers_in_buffer(-26.2041, 28.0473, 80000); 
 
 
 SELECT * FROM strike_zone;
