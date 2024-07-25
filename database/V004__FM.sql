@@ -9,7 +9,7 @@ BEGIN
     INTO municipality_name
     FROM public.zaf_admbnda_adm3_sadb_ocha_20201109_gauteng
     WHERE ST_Contains(geom, point)
-    LIMIT 1; 
+    LIMIT 1; -- Assuming you want to return just one municipality name if multiple match
 
     RETURN municipality_name;
 END;
