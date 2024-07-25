@@ -40,7 +40,7 @@ jobs:
   
       - name: Upload to EC2
         run: |
-          ssh -i ~/.ssh/sd-emergency-system-ec2-key-pair.pem ec2-user@${{ secrets.EC2_IP }} "pm2 stop app.js && \
+          ssh -i ~/.ssh/sd-emergency-system-ec2-key-pair.pem ec2-user@${{ secrets.EC2_IP }} "pm2 stop app && \
           rm -rf /home/ec2-user/backend/*"
           tar -czf api_archive.tar.gz src/ package.json
           scp -i ~/.ssh/sd-emergency-system-ec2-key-pair.pem api_archive.tar.gz ec2-user@${{ secrets.EC2_IP }}:/home/ec2-user/backend/
@@ -48,4 +48,4 @@ jobs:
           cd backend && \
           npm install && \
           rm /home/ec2-user/backend/api_archive.tar.gz && \
-          pm2 start app.js
+          pm2 start src/app.js
