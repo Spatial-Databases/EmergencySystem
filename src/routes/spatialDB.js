@@ -89,11 +89,7 @@ router.get("/findmunicipality", async (req, res) => {
       "SELECT public.find_municipality_name(ST_SetSRID(ST_MakePoint($1, $2), 4326));",
       [longitude, latitude]
     );
-  //   if (spatial_response[0] == null) {
-  //     return res
-  //       .status(400)
-  //       .send("Coordinates not within a valid municipality.");
-  //   }
+
     res.json(spatial_response.rows);
   } catch (err) {
     console.error(err.message);
