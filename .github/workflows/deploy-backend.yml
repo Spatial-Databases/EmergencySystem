@@ -47,5 +47,12 @@ jobs:
           cd backend && \
           npm install && \
           rm /home/ec2-user/backend/api_archive.tar.gz && \
-          pm2 start src/app.js"
-
+          pm2 start src/app.js && \
+          
+          cat <<CONF | sudo tee ~/backend/src/.env > /dev/null
+          ENDPOINT="${{ secrets.DB_HOST }}"
+          PORT="${{ secrets.DB_PORT }}"
+          USER="${{ secrets.DB_USERNAME }}"
+          PASSWORD="${{ secrets.DB_PASSWORD}}"
+          DATABASE="${{ secrets.DB_NAME }}"
+          CONF"
