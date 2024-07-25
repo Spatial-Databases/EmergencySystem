@@ -51,8 +51,11 @@ jobs:
           
           cat <<CONF | sudo tee ~/backend/src/.env > /dev/null
           ENDPOINT="${{ secrets.DB_HOST }}"
-          PORT="${{ secrets.DB_PORT }}"
+          DB_PORT="${{ secrets.DB_PORT }}"
           USER="${{ secrets.DB_USERNAME }}"
           PASSWORD="${{ secrets.DB_PASSWORD}}"
           DATABASE="${{ secrets.DB_NAME }}"
+          DEBUG=false
+          API_KEY="${{ secrets.API_KEY }}"
+          EC2_ENDPOINT="${{ secrets.EC2_ENDPOINT }}"
           CONF"

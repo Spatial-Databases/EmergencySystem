@@ -29,6 +29,6 @@ const router = require('./routes/spatialDB');
 app.use("/api", router);
 
 app.listen(PORT, () => {
-    console.log(`Server running on port http://${process.env.ENDPOINT}:${PORT}`
+    console.log(`Server running on port http://${process.env.EC2_ENDPOINT}:${PORT}`
     );
 });
