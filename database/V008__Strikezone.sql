@@ -5,7 +5,6 @@ CREATE TABLE IF NOT EXISTS strike_zone (
     buffer_zone GEOMETRY(Polygon, 4326)
 );
 
-drop function insert_strike_zone( lon DOUBLE PRECISION, lat DOUBLE PRECISION, radius DOUBLE PRECISION)
 -- Create the insert_strike_zone function
 CREATE OR REPLACE FUNCTION insert_strike_zone(lon DOUBLE PRECISION, lat DOUBLE PRECISION, radius DOUBLE PRECISION)
 RETURNS VOID AS $$
