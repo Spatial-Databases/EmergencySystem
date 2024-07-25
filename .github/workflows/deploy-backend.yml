@@ -25,6 +25,8 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
   
       - name: Get IP Address
+        env: 
+          GH_TOKEN: ${{ secrets.RUNNER_TOKEN }}
         run: |
           EC2_IP=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=sd-emergency-system-ec2-instance" --query "Reservations[*].Instances[*].PublicDnsName" --output text --region ${{ secrets.AWS_SECRET_REGION }})
           gh secret set EC2_IP < $EC2_IP
