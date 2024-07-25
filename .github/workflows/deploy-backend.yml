@@ -40,7 +40,7 @@ jobs:
   
       - name: Upload to EC2
         run: |
-          ssh -i ~/.ssh/sd-emergency-system-ec2-key-pair.pem ec2-user@${{ secrets.EC2_IP }} "pm2 stop app && \
+          ssh -i ~/.ssh/sd-emergency-system-ec2-key-pair.pem ec2-user@${{ secrets.EC2_IP }} "pm2 kill && \
           rm -rf /home/ec2-user/backend/*"
           tar -czf api_archive.tar.gz src/ package.json
           scp -i ~/.ssh/sd-emergency-system-ec2-key-pair.pem api_archive.tar.gz ec2-user@${{ secrets.EC2_IP }}:/home/ec2-user/backend/
